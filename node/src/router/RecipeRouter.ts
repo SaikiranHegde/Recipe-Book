@@ -10,51 +10,35 @@ class RecipeRouter {
         this.routes();
     }
 
-    getRecipes(req: Request, res: Response) {
+    public getRecipes(req: Request, res: Response) {
         Recipe.find({})
         .then((data) => res.json(data))
         .catch((error) => res.json(error));
     }
 
-    storeRecipes(req: Request, res: Response) {
-        console.log("Inside storeRecipes");
-        
-        let array = req.body;
+    public storeRecipe(req: Request, res: Response) {
+        const name: String = req.params.name;
 
-        array.forEach(element => {
-            const name: String = element.name;
-            const description: String = element.description;
-            const imagePath: String = element.imagePath;
-            const ingredients = element.ingredients;
-
-            const recipe = new Recipe({
-                name,
-                description,
-                imagePath,
-                ingredients
+        Recipe.findOneAndUpdate({ name }, req.body, { new: true, upsert: true})
+        .then((data) => {
+            const status = res.statusCode;
+            res.json({
+                status,
+                data
             });
-
-            recipe.save()
-            .then((data) => {
-                const status = res.statusCode;
-                res.json({
-                    status,
-                    data
-                });
-            })
-            .catch((error) => {
-                const status = res.statusCode;
-                res.json({
-                    status,
-                    error
-                });
+        })
+        .catch((error) => {
+            const status = res.statusCode;
+            res.json({
+                status,
+                error
             });
-        });        
+        });
     }
 
     routes() {
         this.router.get('/', this.getRecipes);
-        this.router.post('/', this.storeRecipes);
+        this.router.put('/:name', this.storeRecipe);
     }
 }
 

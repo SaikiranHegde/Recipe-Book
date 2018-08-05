@@ -10,13 +10,24 @@ import { AuthService } from "../auth/auth.service";
 export class DataStorageService {
     constructor(private http: Http, private recipeService: RecipeService, private authService: AuthService) {}
 
-    storeRecipes() {
-        // const token = this.authService.getToken();
+    // storeRecipes() {
+    //     // const token = this.authService.getToken();
         
-        // return this.http.put('https://recipe-book-4c1ac.firebaseio.com/recipes.json?auth=' + token, 
-        // this.recipeService.getRecipes());
+    //     // return this.http.put('https://recipe-book-4c1ac.firebaseio.com/recipes.json?auth=' + token, 
+    //     // this.recipeService.getRecipes());
 
-        return this.http.post('http://localhost:3000/api/recipes/', this.recipeService.getRecipes());
+    //     return this.http.post('http://localhost:3000/api/recipes/', this.recipeService.getRecipes());
+    // }
+
+    storeRecipe(recipe: Recipe) {
+        const name = recipe.name;
+
+        this.http.put('http://localhost:3000/api/recipes/' + name, recipe)
+        .subscribe(
+            (response: Response) => {
+                console.log(response);                
+            }
+        );
     }
 
     getRecipes() {

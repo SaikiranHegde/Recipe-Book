@@ -12,13 +12,14 @@ import { AuthService } from '../auth/auth.service';
 export class HeaderComponent {
     constructor(private dataStorageService: DataStorageService, private authService: AuthService) {}
 
-    onSaveData() {
-        this.dataStorageService.storeRecipes().subscribe(
-            (response: Response) => {
-                console.log(response);                
-            }
-        );
-    }   
+    // onSaveData() {
+    //     this.dataStorageService.storeRecipes()
+    //     .subscribe(
+    //         (response: Response) => {
+    //             console.log(response);                
+    //         }
+    //     );
+    // }   
 
     onFetchData() {
         this.dataStorageService.getRecipes();
