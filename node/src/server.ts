@@ -41,7 +41,7 @@ class Server {
 
         this.app.use('/api/recipes', RecipeRouter);
         // this.app.use('/api/posts', PostRouter);
-        // this.app.use('/api/users', UserRouter);
+        this.app.use('/api/users', UserRouter);
     }
 }
 

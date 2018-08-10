@@ -1,20 +1,6 @@
 import { Schema, model } from 'mongoose';
 
 let userSchema: Schema = new Schema({
-    createdAt: Date,
-    updatedAt: Date,
-    name: {
-        type: String,
-        default: '',
-        required: true
-    },
-    username: {
-        type: String,
-        default: '',
-        required: true,
-        unique: true,
-        lowercase: true
-    },
     email: {
         type: String,
         default: '',
@@ -25,11 +11,7 @@ let userSchema: Schema = new Schema({
         type: String,
         default: '',
         required: true
-    },
-    posts: [{
-        type: Schema.Types.ObjectId,
-        ref: "Post"
-    }]
+    }
 });
 
 export default model('User', userSchema);

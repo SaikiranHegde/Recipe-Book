@@ -7,6 +7,7 @@ var logger = require("morgan");
 var helmet = require("helmet");
 var compression = require("compression");
 var cors = require("cors");
+var UserRouter_1 = require("./router/UserRouter");
 var RecipeRouter_1 = require("./router/RecipeRouter");
 // Server Class
 var Server = /** @class */ (function () {
@@ -30,7 +31,7 @@ var Server = /** @class */ (function () {
         console.log('Inside Routes');
         this.app.use('/api/recipes', RecipeRouter_1.default);
         // this.app.use('/api/posts', PostRouter);
-        // this.app.use('/api/users', UserRouter);
+        this.app.use('/api/users', UserRouter_1.default);
     };
     return Server;
 }());
