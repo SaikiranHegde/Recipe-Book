@@ -84,7 +84,7 @@ var UserRouter = /** @class */ (function () {
             }, 'secret7', {
                 expiresIn: '24h'
             });
-            console.log(token);
+            // console.log(token);
             res.json({
                 status: status,
                 token: token

@@ -17,7 +17,7 @@ export class AuthService {
         this.http.post('http://localhost:3000/api/users/', {email, password})
         .subscribe(
             (response: Response) => {
-                this.router.navigate(['/']);
+                this.router.navigate(['/signin']);
                 console.log(response.json().data.email);                
             }
         );
@@ -68,7 +68,7 @@ export class AuthService {
     }
 
     logout() {
-        this.router.navigate(['/signin']);
         this.storage.remove('token');
+        this.router.navigate(['/signin']);
     }
 }
