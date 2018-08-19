@@ -1,12 +1,12 @@
 import * as firebase from 'firebase';
 import { Inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Http, Response } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 
 @Injectable()
 export class AuthService {
-    constructor(private router: Router, private http: Http, @Inject(LOCAL_STORAGE) private storage: WebStorageService) {}
+    constructor(private router: Router, private http: HttpClient, @Inject(LOCAL_STORAGE) private storage: WebStorageService) {}
 
     signupUser(email: string, password: string) {
         // firebase.auth().createUserWithEmailAndPassword(email, password)
@@ -16,9 +16,9 @@ export class AuthService {
 
         this.http.post('http://localhost:3000/api/users/', {email, password})
         .subscribe(
-            (response: Response) => {
+            (response) => {
                 this.router.navigate(['/signin']);
-                console.log(response.json().data.email);                
+                console.log(response);                
             }
         );
     };
@@ -40,11 +40,10 @@ export class AuthService {
 
         this.http.post('http://localhost:3000/api/users/authenticate', {email, password})
         .subscribe(
-            (response: Response) => {
-                let data = response.json();
-                console.log(data);
+            (response) => {
+                console.log(response);
                 this.router.navigate(['/']);
-                this.setToken(data.token);                
+                this.setToken(response['token']);                
             }
         );
     }
