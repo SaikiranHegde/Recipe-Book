@@ -66,9 +66,16 @@ class UserRouter {
         user.save()
         .then((data) => {
             const status = res.statusCode;
+
+            const token = jwt.sign({
+                email: data.toJSON().email
+            }, 'secret7', {
+                expiresIn: '24h'
+            });
+
             res.json({
                 status,
-                data
+                token
             });
         })
         .catch((error) => {
