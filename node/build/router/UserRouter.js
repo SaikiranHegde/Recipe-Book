@@ -57,9 +57,14 @@ var UserRouter = /** @class */ (function () {
         user.save()
             .then(function (data) {
             var status = res.statusCode;
+            var token = jwt.sign({
+                email: data.toJSON().email
+            }, 'secret7', {
+                expiresIn: '24h'
+            });
             res.json({
                 status: status,
-                data: data
+                token: token
             });
         })
             .catch(function (error) {

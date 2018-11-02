@@ -4,6 +4,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/mergeMap';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 import * as AuthActions from './auth.actions';
 
@@ -19,6 +20,7 @@ export class AuthEffects {
         return this.http.post('http://localhost:3000/api/users/', authData);
     })
     .mergeMap((response) => {
+        this.router.navigate(['/']);
         return [
             {
                 type: AuthActions.SIGNUP
@@ -30,5 +32,25 @@ export class AuthEffects {
         ];
     })
 
-    constructor(private actions$: Actions, private http: HttpClient) {}
+    @Effect()
+    authSignIn = this.actions$
+    .ofType(AuthActions.TRYSIGNIN)
+    .map((action: AuthActions.TrySignin) => action.payload)
+    .switchMap((authData: {email: string, password: string}) => {
+        return this.http.post('http://localhost:3000/api/users/authenticate', authData)
+    })
+    .mergeMap((response) => {
+        this.router.navigate(['/']);
+        return [
+            {
+                type: AuthActions.SIGNIN
+            },
+            {
+                type: AuthActions.SETTOKEN,
+                payload: response['token']
+            }
+        ]
+    });
+
+    constructor(private actions$: Actions, private http: HttpClient, private router: Router) {}
 }
