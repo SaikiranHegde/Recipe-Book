@@ -6,8 +6,6 @@ import * as helmet from 'helmet';
 import * as compression from 'compression';
 import * as cors from 'cors';
 
-// import routers
-import PostRouter from './router/PostRouter';
 import UserRouter from './router/UserRouter';
 import RecipeRouter from './router/RecipeRouter';
 

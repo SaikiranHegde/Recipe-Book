@@ -5,7 +5,6 @@ var recipeSchema = new mongoose_1.Schema({
     name: {
         type: String,
         default: '',
-        unique: true,
         required: true
     },
     description: {

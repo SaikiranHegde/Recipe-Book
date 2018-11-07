@@ -4,7 +4,6 @@ let recipeSchema: Schema = new Schema({
     name: {
         type: String,
         default: '',
-        unique: true,
         required: true
     },
     description: {

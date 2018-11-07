@@ -3,9 +3,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 
-import { RecipeService } from '../recipe.service';
 import { Recipe } from '../recipe.model';
-import { DataStorageService } from '../../shared/data-storage.service';
 import * as fromRecipe from '../store/recipe.reducers';
 import * as RecipeActions from '../store/recipe.actions';
 
@@ -19,9 +17,7 @@ export class RecipeEditComponent implements OnInit {
     editMode = false;
     recipeForm: FormGroup;
 
-    constructor(private route: ActivatedRoute, private recipeService: RecipeService,
-                private router: Router, private dataStorageService: DataStorageService,
-                private store: Store<fromRecipe.RecipeState>) { }
+    constructor(private route: ActivatedRoute, private router: Router, private store: Store<fromRecipe.RecipeState>) { }
 
     ngOnInit() {
         this.route.params.subscribe(
@@ -41,7 +37,8 @@ export class RecipeEditComponent implements OnInit {
             // this.recipeService.addRecipe(this.recipeForm.value);
             this.store.dispatch(new RecipeActions.AddRecipe(this.recipeForm.value));
         }
-        this.dataStorageService.storeRecipe(this.recipeForm.value);
+        // this.dataStorageService.storeRecipe(this.recipeForm.value);
+        this.store.dispatch(new RecipeActions.StoreRecipes(this.recipeForm.value));
         this.router.navigate(['../'], {relativeTo: this.route});
     }
 
@@ -74,7 +71,6 @@ export class RecipeEditComponent implements OnInit {
         let recipeIngredients = new FormArray([]);
 
         if (this.editMode) {
-            const recipe: Recipe = this.recipeService.getRecipe(this.id);
             this.store.select('recipes').take(1)
             .subscribe((recipeState: fromRecipe.State) => {
                 const recipe: Recipe = recipeState.recipes[this.id];
